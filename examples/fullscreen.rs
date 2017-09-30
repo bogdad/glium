@@ -3,13 +3,32 @@ extern crate glium;
 
 extern crate image;
 
-use std::io::Cursor;
+use std::io::{Cursor, stdin, stdout, Write};
 
 use glium::Surface;
 use glium::index::PrimitiveType;
-use glium::glutin::{self, ElementState, VirtualKeyCode, Event, WindowEvent};
+use glium::glutin::{self, ElementState, VirtualKeyCode, Event, WindowEvent, MonitorId};
 
 mod support;
+
+fn monitor(events_loop: &glutin::EventsLoop) -> MonitorId {
+    // enumerating monitors
+    for (num, monitor) in events_loop.get_available_monitors().enumerate() {
+        println!("Monitor #{}: {:?}", num, monitor.get_name());
+    }
+
+    print!("Please write the number of the monitor to use: ");
+    stdout().flush().unwrap();
+
+    let mut num = String::new();
+    stdin().read_line(&mut num).unwrap();
+    let num = num.trim().parse().ok().expect("Please enter a number");
+    let monitor = events_loop.get_available_monitors().nth(num).expect("Please enter a valid ID");
+
+    println!("Using {:?}", monitor.get_name());
+
+    monitor
+}
 
 fn main() {
     // building the display, ie. the main object
@@ -123,7 +142,7 @@ fn main() {
                 fullscreen = false;
             } else {
                 let window = glutin::WindowBuilder::new()
-                    .with_fullscreen(glutin::get_primary_monitor());
+                    .with_fullscreen(Some(monitor(&events_loop)));
                 let context = glutin::ContextBuilder::new();
                 display.rebuild(window, context, &events_loop).unwrap();
                 fullscreen = true;
