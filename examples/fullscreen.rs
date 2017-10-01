@@ -3,7 +3,7 @@ extern crate glium;
 
 extern crate image;
 
-use std::io::{Cursor, stdin, stdout, Write};
+use std::io::Cursor;
 
 use glium::Surface;
 use glium::index::PrimitiveType;
