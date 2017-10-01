@@ -139,7 +139,9 @@ impl Display {
         };
 
         // Replace the stored GlWindow with the new one.
-        {
+        { 
+            // need a new scope, 
+            // as gl_window.borrow_mut() conflicts with later backend.borrow() in rebuild
             let mut gl_window = self.gl_window.borrow_mut();
             std::mem::replace(&mut (*gl_window), new_gl_window);
         }
