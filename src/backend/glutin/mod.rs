@@ -139,8 +139,10 @@ impl Display {
         };
 
         // Replace the stored GlWindow with the new one.
-        let mut gl_window = self.gl_window.borrow_mut();
-        std::mem::replace(&mut (*gl_window), new_gl_window);
+        {
+            let mut gl_window = self.gl_window.borrow_mut();
+            std::mem::replace(&mut (*gl_window), new_gl_window);
+        }
 
         // Rebuild the Context.
         let backend = GlutinBackend(self.gl_window.clone());

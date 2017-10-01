@@ -16,15 +16,8 @@ fn monitor(events_loop: &glutin::EventsLoop) -> MonitorId {
     for (num, monitor) in events_loop.get_available_monitors().enumerate() {
         println!("Monitor #{}: {:?}", num, monitor.get_name());
     }
-
-    print!("Please write the number of the monitor to use: ");
-    stdout().flush().unwrap();
-
-    let mut num = String::new();
-    stdin().read_line(&mut num).unwrap();
-    let num = num.trim().parse().ok().expect("Please enter a number");
-    let monitor = events_loop.get_available_monitors().nth(num).expect("Please enter a valid ID");
-
+    let monitor = events_loop.get_available_monitors().nth(0)
+        .expect("should have at least one monitor");
     println!("Using {:?}", monitor.get_name());
 
     monitor
