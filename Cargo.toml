@@ -36,6 +36,8 @@ test_headless = []  # used for testing headless display
 version = "0.10"
 features = []
 optional = true
+git = "https://github.com/bogdad/glutin"
+branch = "context_sharing"
 
 [dependencies]
 backtrace = "0.3.2"

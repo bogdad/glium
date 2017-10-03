@@ -129,7 +129,8 @@ fn main() {
         // If enter was pressed toggle fullscreen.
         if enter_pressed {
             if fullscreen {
-                let window = glutin::WindowBuilder::new();
+                let window = glutin::WindowBuilder::new()
+                    .with_dimensions(100, 100);
                 let context = glutin::ContextBuilder::new();
                 display.rebuild(window, context, &events_loop).unwrap();
                 fullscreen = false;
